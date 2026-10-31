@@ -11,7 +11,9 @@ frontend:
     repository: "317876758969.dkr.ecr.us-east-1.amazonaws.com/devops-frontend"
     tag: "bootstrap"
     pullPolicy: IfNotPresent
-  env: {}
+  env:
+    # Dummy URL: replace with the browser-accessible backend URL before using API features.
+    API_URL: "https://api.example.com/api/auth"
   resources:
     requests:
       cpu: 50m

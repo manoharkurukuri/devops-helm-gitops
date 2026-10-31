@@ -11,6 +11,8 @@ spec:
       app: {{ include "fullstack.fullname" . }}-frontend
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/frontend-configmap.yaml") . | sha256sum }}
       labels:
         app: {{ include "fullstack.fullname" . }}-frontend
     spec:
@@ -31,12 +33,8 @@ spec:
               port: http
             initialDelaySeconds: 15
             periodSeconds: 20
-          {{- with .Values.frontend.env }}
-          env:
-            {{- range $name, $value := . }}
-            - name: {{ $name }}
-              value: {{ $value | quote }}
-            {{- end }}
-          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "fullstack.fullname" . }}-frontend-config
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
