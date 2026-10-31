@@ -27,19 +27,27 @@ backend:
   service:
     port: 8080
     nodePort: 30081
-  # Change this if your backend doesn't expose GET /health returning 200.
-  healthPath: /health
+  healthPath: /api/auth/server-status
   image:
     repository: "317876758969.dkr.ecr.us-east-1.amazonaws.com/devops-backend"
     tag: "bootstrap"
     pullPolicy: IfNotPresent
-  env: {}
+  existingSecret: backend-secret
+  env:
+    SPRING_DATA_MONGODB_AUTO_INDEX_CREATION: "true"
+    SPRING_MAIN_ALLOW_CIRCULAR_REFERENCES: "true"
+    SPRING_AUTOCONFIGURE_EXCLUDE: "org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration"
+    SERVER_FORWARD_HEADERS_STRATEGY: "NONE"
+    JWT_EXPIRATION: "60400000"
+    CLERK_ISSUER: "https://stable-magpie-16.clerk.accounts.dev"
+    CLERK_JWKS_URL: "https://stable-magpie-16.clerk.accounts.dev/.well-known/jwks.json"
   resources:
     requests:
-      cpu: 75m
-      memory: 128Mi
+      cpu: 250m
+      memory: 320Mi
     limits:
-      memory: 512Mi
+      cpu: 500m
+      memory: 1Gi
 
 ingress:
   enabled: true
