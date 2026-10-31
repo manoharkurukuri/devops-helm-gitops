@@ -2,7 +2,7 @@
 # Frontend and backend builds are expected to provide ports and routes below.
 frontend:
   replicaCount: 1
-  containerPort: 80
+  containerPort: 3000
   service:
     port: 80
     nodePort: 30080
