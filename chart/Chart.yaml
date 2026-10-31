@@ -1,0 +1,5 @@
+apiVersion: v2
+name: fullstack
+version: 0.1.0
+appVersion: "1.0"
+description: Frontend + backend for AWS EKS, with NodePort services and ALB ingress

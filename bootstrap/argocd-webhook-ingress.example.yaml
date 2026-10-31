@@ -1,0 +1,30 @@
+# OPTIONAL after ACM + a domain exist. Do NOT apply unchanged; replace host and ARN.
+# Shares the APPLICATION ALB using the same IngressGroup, but sends webhook
+# traffic straight to Argo CD Pod IPs (the Argo CD Service remains ClusterIP).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-webhook
+  namespace: argocd
+  annotations:
+    alb.ingress.kubernetes.io/group.name: devops-shared
+    alb.ingress.kubernetes.io/group.order: "0"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:YOUR_AWS_ACCOUNT_ID:certificate/YOUR_CERT_ID
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    alb.ingress.kubernetes.io/success-codes: "200-399"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: argocd.example.com
+      http:
+        paths:
+          - path: /api/webhook
+            pathType: Exact
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  number: 80

@@ -1,0 +1,27 @@
+# REPLACE GitHub username or organization, then apply from bastion.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fullstack-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_GITHUB_OWNER/devops-helm-gitops.git
+    targetRevision: main
+    path: chart
+    helm:
+      releaseName: fullstack
+      valueFiles:
+        - values.yaml
+        - environments/dev/frontend.yaml
+        - environments/dev/backend.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

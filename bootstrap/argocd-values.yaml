@@ -1,0 +1,10 @@
+# In this project, Argo CD admin UI stays ClusterIP and is only exposed via port-forward.
+# The separate ALB webhook endpoint terminates TLS and forwards HTTP inside the VPC.
+configs:
+  params:
+    server.insecure: "true"
+  cm:
+    webhook.maxPayloadSizeMB: "1"
+server:
+  service:
+    type: ClusterIP

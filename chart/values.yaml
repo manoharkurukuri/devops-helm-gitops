@@ -1,0 +1,44 @@
+# UPDATE both repository URLs using outputs from the Terraform repository.
+# Frontend and backend builds are expected to provide ports and routes below.
+frontend:
+  replicaCount: 1
+  containerPort: 80
+  service:
+    port: 80
+    nodePort: 30080
+  healthPath: /
+  image:
+    repository: "317876758969.dkr.ecr.us-east-1.amazonaws.com/devops-frontendL"
+    tag: "bootstrap"
+    pullPolicy: IfNotPresent
+  env: {}
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+
+backend:
+  replicaCount: 1
+  containerPort: 8080
+  service:
+    port: 8080
+    nodePort: 30081
+  # Change this if your backend doesn't expose GET /health returning 200.
+  healthPath: /health
+  image:
+    repository: "317876758969.dkr.ecr.us-east-1.amazonaws.com/devops-backend"
+    tag: "bootstrap"
+    pullPolicy: IfNotPresent
+  env: {}
+  resources:
+    requests:
+      cpu: 75m
+      memory: 128Mi
+    limits:
+      memory: 512Mi
+
+ingress:
+  enabled: true
+  groupName: devops-shared
