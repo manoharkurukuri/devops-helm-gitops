@@ -8,7 +8,7 @@ frontend:
     nodePort: 30080
   healthPath: /
   image:
-    repository: "317876758969.dkr.ecr.us-east-1.amazonaws.com/devops-frontendL"
+    repository: "317876758969.dkr.ecr.us-east-1.amazonaws.com/devops-frontend"
     tag: "bootstrap"
     pullPolicy: IfNotPresent
   env: {}
