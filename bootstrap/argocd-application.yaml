@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_GITHUB_OWNER/devops-helm-gitops.git
+    repoURL: https://github.com/manoharkurukuri/devops-helm-gitops.git
     targetRevision: main
     path: chart
     helm:
