@@ -13,7 +13,7 @@ frontend:
     pullPolicy: IfNotPresent
   env:
     # Dummy URL: replace with the browser-accessible backend URL before using API features.
-    API_URL: "https://api.example.com/api/auth"
+    API_URL: "http://k8s-devopsshared-1bc2f88bf9-2109907366.us-east-1.elb.amazonaws.com/api/auth"
   resources:
     requests:
       cpu: 50m
