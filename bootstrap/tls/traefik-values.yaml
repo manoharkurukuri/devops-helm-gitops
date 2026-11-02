@@ -1,0 +1,38 @@
+
+# Traefik IngressClass
+ingressClass:
+  enabled: true
+  isDefaultClass: false
+  name: traefik
+
+# Watch Kubernetes Ingress resources
+providers:
+  kubernetesIngress:
+    enabled: true
+
+# HTTP and HTTPS entrypoints
+ports:
+  web:
+    exposedPort: 80
+    expose:
+      default: true
+
+  websecure:
+    exposedPort: 443
+    expose:
+      default: true
+    http:
+      tls:
+        enabled: true
+
+# AWS NLB managed by AWS Load Balancer Controller
+service:
+  enabled: true
+
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "ip"
+
+  spec:
+    type: LoadBalancer
+    loadBalancerClass: service.k8s.aws/nlb
